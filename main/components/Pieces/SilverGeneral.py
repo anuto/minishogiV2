@@ -12,35 +12,17 @@ class SilverGeneral(Piece):
 		 )
 
 	def get_valid_moves(self, game):
-		(y, x) = self.square
-		potential_moves = []
-
-		# always check one square NW
-		potential_moves += self.validate_move(game, y + 1, x - 1)		
-
-		# always check one square NE
-		potential_moves += self.validate_move(game, y + 1, x + 1)		
-
-		# always check one square SE
-		potential_moves += self.validate_move(game, y - 1, x + 1)		
-
-		# always check one square SW
-		potential_moves += self.validate_move(game, y - 1, x - 1)		
-
-		# check 'forward' - down if side 2, up if side 1
-		if self.side == 1:
-			potential_moves += self.validate_move(game, y + 1, x)
+		if self.is_promoted:
+			return PromotionUtils.get_gold_general_moves(self, game)
 		else:
-			potential_moves += self.validate_move(game, y - 1, x)
+			(y, x) = self.square
+			potential_moves = []
 
-		return potential_moves
+			potential_moves += PieceUtils.get_move_diagonals(self, game, y, x)
 
-	def validate_move(self, game, y, x):
-		if y < 0 or y > 4 or x < 0 or x > 4:
-			return []
+			if self.side == 1:
+				potential_moves += PieceUtils.get_move_north(self, game, y, x)	
+			else:
+				potential_moves += PieceUtils.get_move_south(self, game, y, x)	
 
-		potential_move = (y, x)
-		if game.occupied_by_ally_piece(self.side, potential_move):
-			return []
-		else:
-			return [potential_move]
+			return potential_moves

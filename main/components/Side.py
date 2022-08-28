@@ -34,6 +34,13 @@ class Side(object):
 			Emperor(side)
 		]
 
+	def piece_captured(self, piece):
+		self.pieces.remove(piece)
+		piece.captured()
+
+	def add_captured(self, piece):
+		self.pieces.append(piece)
+
 	# returns if the player has lost
 	def lost(self):
 		for piece in self.pieces:

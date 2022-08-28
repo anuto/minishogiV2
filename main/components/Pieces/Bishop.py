@@ -1,6 +1,7 @@
 from Piece import Piece
 from PieceType import PieceType
 from PieceUtils import PieceUtils
+from HelperFunctions import HelperFunctions as F
 
 class Bishop(Piece):
 	def __init__(self, side):
@@ -15,65 +16,24 @@ class Bishop(Piece):
 		(y, x) = self.square
 		potential_moves = []
 
-		# check NW
-		y_i = y + 1
-		x_i = x - 1
+		potential_moves += self.get_north_west_moves(game, y, x)		
+		potential_moves += self.get_north_east_moves(game, y, x)		
+		potential_moves += self.get_south_west_moves(game, y, x)		
+		potential_moves += self.get_south_east_moves(game, y, x)
 
-		while(y_i < 5 and x_i > -1):
-			potential_move = (y_i, x_i)
-			if game.occupied_by_ally_piece(self.side, potential_move):
-				break
-			potential_moves.append(potential_move)
-			if game.occupied_by_enemy_piece(self.side, potential_move):
-				break
+		if self.is_promoted:
+			potential_moves += PieceUtils.get_move_nsew(self, game, y, x)
 
-			y_i += 1
-			x_i -= 1
-
-
-		# check NE
-		y_i = y + 1
-		x_i = x + 1
-
-		while(y_i < 5 and x_i < 5):
-			potential_move = (y_i, x_i)
-			if game.occupied_by_ally_piece(self.side, potential_move):
-				break
-			potential_moves.append(potential_move)
-			if game.occupied_by_enemy_piece(self.side, potential_move):
-				break
-
-			y_i += 1
-			x_i += 1
-
-		# check SW
-		y_i = y - 1
-		x_i = x - 1
-
-		while(y_i > -1 and x_i > -1):
-			potential_move = (y_i, x_i)
-			if game.occupied_by_ally_piece(self.side, potential_move):
-				break
-			potential_moves.append(potential_move)
-			if game.occupied_by_enemy_piece(self.side, potential_move):
-				break
-
-			y_i -= 1
-			x_i -= 1
-
-		# check SE
-		y_i = y - 1
-		x_i = x + 1
-
-		while(y_i > -1 and x_i < 5):
-			potential_move = (y_i, x_i)
-			if game.occupied_by_ally_piece(self.side, potential_move):
-				break
-			potential_moves.append(potential_move)
-			if game.occupied_by_enemy_piece(self.side, potential_move):
-				break
-
-			y_i -= 1
-			x_i += 1
-			
 		return potential_moves
+
+	def get_north_west_moves(self, game, y, x):
+		return PieceUtils.validate_moves(self, game, y, x,  F.increment, F.decrement)
+
+	def get_south_west_moves(self, game, y, x):
+		return PieceUtils.validate_moves(self, game, y, x,  F.decrement, F.decrement)
+
+	def get_north_east_moves(self, game, y, x):
+		return PieceUtils.validate_moves(self, game, y, x,  F.increment, F.increment)
+
+	def get_south_east_moves(self, game, y, x):
+		return PieceUtils.validate_moves(self, game, y, x,  F.decrement, F.decrement)
