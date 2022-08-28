@@ -12,12 +12,20 @@ class Pawn(Piece):
 		 )
 
 	def get_valid_moves(self, game):
-		if self.side == 1:
-			potential_move = [(self.square[0] + 1, self.square[1])]
-		else:
-			potential_move = [(self.square[0] - 1, self.square[1])]
+		(y, x) = self.square
 
-		if game.occupied_by_enemy_piece(self.side, potential_move):
+		if self.side == 1:
+			return self.validate_move(game, y + 1, x)
+
+		else:
+			return self.validate_move(game, y - 1, x)
+
+	def validate_move(self, game, y, x):
+		if y < 0 or y > 4 or x < 0 or x > 4:
 			return []
 
-		return [potential_move]
+		potential_move = (y, x)
+		if game.occupied_by_ally_piece(self.side, potential_move):
+			return []
+		else:
+			return [potential_move]

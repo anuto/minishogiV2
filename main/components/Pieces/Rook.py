@@ -16,18 +16,17 @@ class Rook(Piece):
 		(y, x) = self.square
 		potential_moves = []
 
-
 		# check horizontal - left
-		# potential_moves += self.get_moves_in_horizontal_range(game, y, x, 0, -1)
+		potential_moves += self.get_moves_in_horizontal_range(game, y, x - 1, -1, -1)
 
 		# check horizontal - right
 		potential_moves += self.get_moves_in_horizontal_range(game, y, x + 1, 5, 1)
 
 		# check vertical - down
-		potential_moves += self.get_moves_in_horizontal_range(game, x, y, 0, -1)
+		potential_moves += self.get_moves_in_vertical_range(game, x, y - 1, 0, -1)
 
 		# check vertical - up
-		potential_moves += self.get_moves_in_horizontal_range(game, x, y + 1, 5, 1)
+		potential_moves += self.get_moves_in_vertical_range(game, x, y + 1, 5, 1)
 
 		return potential_moves
 

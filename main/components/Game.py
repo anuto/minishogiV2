@@ -41,13 +41,13 @@ class Game(object):
 	# returns the player that's turn it is
 	def get_player_number_turn(self):
 		if not self.game_over():
-			return self.turn % 2
+			return ((self.turn + 1) % 2) + 1
 
 		raise Exception("game has already ended :c")
 
 	# map player turn to side
 	def get_active_side(self):
-		return self.sides[self.turn % 2]
+		return self.sides[self.get_player_number_turn()]
 
 	def make_move(self, start_square, end_square):
 		player = side.get_active_side()
@@ -55,17 +55,18 @@ class Game(object):
 
 	# return map of 'piece'-> [valid squares to move to]
 	def get_valid_moves_for_active_player(self):
-		player = self.get_active_side()
+		pieces = self.get_active_side().pieces
 		moves = {}
-		for piece in player.pieces:
+		for piece in pieces:
 			moves[(piece.type, piece.square)] = piece.get_valid_moves(self)
 		return moves
 
 	def occupied_by_ally_piece(self, side, square):
-		for piece in self.get_active_side().pieces:
+		pieces = self.get_active_side().pieces
+		for piece in pieces:
 			if piece.square == square:
 				return True
-			return False
+		return False
 
 	def occupied_by_enemy_piece(self, side, square):
 		# 1 % 2 = 1 + 1 = 2
@@ -74,4 +75,4 @@ class Game(object):
 		for piece in self.sides[opposite_side].pieces:
 			if piece.square == square:
 				return True
-			return False
+		return False
