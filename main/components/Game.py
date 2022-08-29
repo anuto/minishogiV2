@@ -63,20 +63,33 @@ class Game(object):
 		piece = next((piece for piece in player.pieces if piece.square == start_square), None)
 		if piece:
 			if  end_square in piece.get_valid_moves(self):
-				current_enemy_piece = self.square_occupied_by_enemy_piece(piece.side, end_square)
+				current_enemy_piece = self.square_occupied_by_enemy_piece(piece.side, end_square)  
 				if current_enemy_piece:
 					# remove piece from opponent, should reset any promotion
 					opponent_side = self.get_opponent_side()
 					opponent_side.piece_captured(current_enemy_piece)
 
 					current_side = self.get_active_side()
-					current_side.add_captured(current_enemy_piece)
+					current_side.add_captured_piece(current_enemy_piece)
 
 				piece.move_piece(end_square)
 			else:
 				raise Exception("piece cannot move there ;c")
 		else:
 			raise Exception("you have no pieces on the start square? :o")
+
+	def can_place_piece(self, piece_type, active_square):
+		# check based off type (mostly pawns...) rules
+		return True
+
+	def place_piece(self, piece_type, placement_square):
+		if (self.can_place_piece(piece_type, placement_square)):
+			captured = self.get_active_side().captured
+			piece = self.get_piece_by_type(piece_type, captured)
+
+			side.place_piece(piece, placement_square)
+
+		raise Exception("cannot place this piece")
 
 	def can_promote_piece(self, promote_square):
 		pieces = self.get_active_side().pieces
@@ -106,6 +119,9 @@ class Game(object):
 			moves[(piece.type, piece.square)] = piece.get_valid_moves(self)
 		return moves
 
+	def get_captured_pieces_for_active_player(self):
+		return self.get_active_side().captured
+
 	def square_occupied_by_ally_piece(self, side, square):
 		pieces = self.get_active_side().pieces
 		return self.get_piece_on_square(pieces, square)
@@ -117,5 +133,11 @@ class Game(object):
 	def get_piece_on_square(self, pieces, square):
 		for piece in pieces:
 			if piece.square == square:
+				return piece
+		return None
+
+	def get_piece_by_type(self, pieces, type):
+		for piece in pieces:
+			if piece.type == type:
 				return piece
 		return None

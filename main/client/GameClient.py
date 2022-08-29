@@ -11,29 +11,34 @@ def main():
 	controller.add_player("Fionna")
 	controller.add_player("Marshall")
 
+	take_turn__move_piece(controller, (0, 4), (3, 4))
+	take_turn__move_piece(controller, (4, 4), (3, 4))
 	
-	print_turn(controller)
 	render_moves(controller)
-
-	# controller.game.turn += 1
-	controller.move_piece((0, 4), (1, 4))
-
-	linebreak('.')
-
-	print_turn(controller)
-	render_moves(controller)
-
-	controller.move_piece((3, 4), (2, 4))
-	linebreak('.')
-
-	print_turn(controller)
-	render_moves(controller)
+	render_captured(controller)
 
 	linebreak('=')
+
+def take_turn__move_piece(controller, start_square, end_square):
+	render_captured
+	print_turn(controller)
+	render_moves(controller)
+	render_captured(controller)
+
+	# controller.game.turn += 1
+	controller.move_piece(start_square, end_square)
+
+	linebreak('.')
 
 def print_turn(controller):
 	turn = controller.get_player_turn()
 	print('turn: ' + str(turn))
+
+def render_captured(controller):
+	print("captured pool: ")
+	captured = controller.get_captured_pieces_for_active_player()
+	for piece in captured:
+		print(str(piece))
 
 def render_moves(controller):
 	legal_moves = controller.get_valid_moves_for_active_player()
