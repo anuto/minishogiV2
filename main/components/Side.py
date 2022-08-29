@@ -1,13 +1,13 @@
 from Player import Player 
 
-from Pieces.Emperor import Emperor
-from Pieces.GoldGeneral import GoldGeneral
-from Pieces.SilverGeneral import SilverGeneral
-from Pieces.Bishop import Bishop
-from Pieces.Rook import Rook
-from Pieces.Pawn import Pawn
+from pieces.Emperor import Emperor
+from pieces.GoldGeneral import GoldGeneral
+from pieces.SilverGeneral import SilverGeneral
+from pieces.Bishop import Bishop
+from pieces.Rook import Rook
+from pieces.Pawn import Pawn
 
-from Pieces.PieceType import PieceType
+from pieces.PieceType import PieceType
 
 from os import sys,path
 PARENT_DIR = path.dirname(path.dirname(path.abspath(__file__)))
@@ -18,11 +18,11 @@ from Player import Player
 class Side(object):
 
 	# param name should be a string name of the player
-	def __init__(self, name, side):
+	def __init__(self, name, side_number):
 		self.player = Player(name)
-		self.pieces = self.create_starting_pieces(side)
 		self.captured = []
-		self.side = side
+		self.side = side_number
+		self.pieces = self.create_starting_pieces(side_number)
 
 	def create_starting_pieces(self, side):
 		return [

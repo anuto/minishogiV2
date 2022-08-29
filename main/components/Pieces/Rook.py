@@ -4,14 +4,15 @@ from PieceUtils import PieceUtils
 from HelperFunctions import HelperFunctions as F
 
 class Rook(Piece):
-	def __init__(self, side):
-		Piece.__init__(self, side)
-		self.type = PieceType.ROOK
+	
+	SIDE_1_STARTING_SQUARE = (0, 4)
+	SIDE_2_STARTING_SQUARE = (4, 0)
 
-		self.square = PieceUtils.assign_based_on_side(side,
-		 (0, 4), 
-		 (4, 0)
-	)
+	def get_base_type(self):
+		return PieceType.ROOK
+
+	def get_promote_type(self):
+		return PieceType.DRAGON_KING
 
 	def get_valid_moves(self, game):
 		(y, x) = self.square

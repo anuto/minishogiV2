@@ -4,13 +4,15 @@ from PieceUtils import PieceUtils
 from PromotionUtils import PromotionUtils
 
 class Pawn(Piece):
-	def __init__(self, side):
-		Piece.__init__(self, side)
-		self.type = PieceType.PAWN
-		self.square = PieceUtils.assign_based_on_side(side,
-		 (1, 0), 
-		 (3, 4)
-		 )
+
+	SIDE_1_STARTING_SQUARE = (1, 0)
+	SIDE_2_STARTING_SQUARE = (3, 4)
+
+	def get_base_type(self):
+		return PieceType.PAWN
+
+	def get_promote_type(self):
+		return PieceType.PROMOTED_PAWN
 
 	def get_valid_moves(self, game):
 		if self.is_promoted:

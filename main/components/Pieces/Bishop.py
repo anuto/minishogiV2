@@ -4,14 +4,16 @@ from PieceUtils import PieceUtils
 from HelperFunctions import HelperFunctions as F
 
 class Bishop(Piece):
-	def __init__(self, side):
-		Piece.__init__(self, side)
-		self.type = PieceType.BISHOP
-		self.square = PieceUtils.assign_based_on_side(side,
-		 (0, 3), 
-		 (4, 1)
-		)
-	
+
+	SIDE_1_STARTING_SQUARE = (0, 3)
+	SIDE_2_STARTING_SQUARE = (4, 1)
+
+	def get_base_type(self):
+		return PieceType.BISHOP
+
+	def get_promote_type(self):
+		return PieceType.DRAGON_HORSE
+
 	def get_valid_moves(self, game):
 		(y, x) = self.square
 		potential_moves = []
@@ -36,4 +38,4 @@ class Bishop(Piece):
 		return PieceUtils.validate_moves(self, game, y, x,  F.increment, F.increment)
 
 	def get_south_east_moves(self, game, y, x):
-		return PieceUtils.validate_moves(self, game, y, x,  F.decrement, F.decrement)
+		return PieceUtils.validate_moves(self, game, y, x,  F.decrement, F.increment)
