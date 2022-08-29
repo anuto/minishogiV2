@@ -32,4 +32,8 @@ class GameController(object):
 	# taking a piece, places the piece if legal
 	def place_piece(self, piece, placement_square):
 		self.game.place_piece(piece, placement_square)
+		# no promotion component, cannot place promotion
 		self.game.end_turn()
+
+	def get_captured_pieces_for_active_player(self):
+		return self.game.get_captured_pieces_for_active_player()

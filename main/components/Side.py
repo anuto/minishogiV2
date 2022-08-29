@@ -34,12 +34,17 @@ class Side(object):
 			Emperor(side)
 		]
 
+	def place_piece(self, piece, placement_square):
+		self.captured.remove(piece)
+		self.pieces.append(piece)
+		piece.move_piece(placement_square)
+
+	def add_captured_piece(self, piece):
+		self.captured.append(piece)
+
 	def piece_captured(self, piece):
 		self.pieces.remove(piece)
 		piece.captured()
-
-	def add_captured(self, piece):
-		self.pieces.append(piece)
 
 	# returns if the player has lost
 	def lost(self):
