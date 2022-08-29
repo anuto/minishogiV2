@@ -3,7 +3,12 @@ from enum import Enum
 class PieceType(Enum):
 	EMPEROR = "E"
 	BISHOP = "B"
-	GOLD_GENERAL = "G"
-	SILVER_GENERAL = "S"
+	GOLD_GENERAL = "GG"
+	SILVER_GENERAL = "SG"
 	PAWN = "P"
 	ROOK = "R"
+
+	PROMOTED_PAWN = "PP"
+	PROMOTED_SILVER_GENERAL = "PSG"
+	DRAGON_KING = "DK"
+	DRAGON_HORSE = "DH"

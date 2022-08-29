@@ -39,7 +39,7 @@ class Game(object):
 		return self.get_active_side().player.name
 
 	# returns the player that's turn it is
-	def get_player_number_turn(self):
+	def get_active_player_number(self):
 		if not self.game_over():
 			return ((self.turn + 1) % 2) + 1
 
@@ -53,7 +53,7 @@ class Game(object):
 
 	# map player turn to side
 	def get_active_side(self):
-		return self.sides[self.get_player_number_turn()]
+		return self.sides[self.get_active_player_number()]
 
 	def get_opponent_side(self):
 		return self.sides[self.get_opponent_player_number()]
@@ -113,7 +113,11 @@ class Game(object):
 
 	# return map of 'piece'-> [valid squares to move to]
 	def get_valid_moves_for_active_player(self):
-		pieces = self.get_active_side().pieces
+		active_player_side = self.get_active_player_number()
+		return self.get_valid_moves_for_player(active_player_side)
+		
+	def get_valid_moves_for_player(self, side):
+		pieces = self.sides[side].pieces
 		moves = {}
 		for piece in pieces:
 			moves[(piece.type, piece.square)] = piece.get_valid_moves(self)
@@ -123,11 +127,11 @@ class Game(object):
 		return self.get_active_side().captured
 
 	def square_occupied_by_ally_piece(self, side, square):
-		pieces = self.get_active_side().pieces
+		pieces = self.sides[side].pieces
 		return self.get_piece_on_square(pieces, square)
 
 	def square_occupied_by_enemy_piece(self, side, square):
-		pieces = self.get_opponent_side().pieces
+		pieces = self.sides[side % 2 + 1].pieces
 		return self.get_piece_on_square(pieces, square)
 
 	def get_piece_on_square(self, pieces, square):

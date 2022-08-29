@@ -4,16 +4,18 @@ from PieceUtils import PieceUtils
 from PromotionUtils import PromotionUtils
 
 class GoldGeneral(Piece):
-	def __init__(self, side):
-		Piece.__init__(self, side)
-		self.type = PieceType.GOLD_GENERAL
-		self.square = PieceUtils.assign_based_on_side(side,
-		 (0, 1), 
-		 (4, 3)
-		 )
+
+	SIDE_1_STARTING_SQUARE = (0, 1)
+	SIDE_2_STARTING_SQUARE = (4, 3)
+	
+	def get_base_type(self):
+		return PieceType.GOLD_GENERAL
+
+	def get_promote_type(self):
+		raise Exception("gold general has no promote type, does not promote")
 
 	def get_valid_moves(self, game):
-		PromotionUtils.get_gold_general_moves(self, game)
+		return PromotionUtils.get_gold_general_moves(self, game)
 
 	def can_promote(self):
 		return False

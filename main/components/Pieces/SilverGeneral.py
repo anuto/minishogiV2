@@ -3,13 +3,9 @@ from PieceType import PieceType
 from PieceUtils import PieceUtils
 
 class SilverGeneral(Piece):
-	def __init__(self, side):
-		Piece.__init__(self, side)
-		self.type = PieceType.SILVER_GENERAL
-		self.square = PieceUtils.assign_based_on_side(side,
-		 (0, 2), 
-		 (4, 2)
-		 )
+
+	SIDE_1_STARTING_SQUARE = (0, 2)
+	SIDE_2_STARTING_SQUARE = (4, 2)
 
 	def get_valid_moves(self, game):
 		if self.is_promoted:
@@ -26,3 +22,9 @@ class SilverGeneral(Piece):
 				potential_moves += PieceUtils.get_move_south(self, game, y, x)	
 
 			return potential_moves
+
+	def get_base_type(self):
+		return PieceType.SILVER_GENERAL
+
+	def get_promote_type(self):
+		return PieceType.PROMOTED_SILVER_GENERAL
